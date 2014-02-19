@@ -1,35 +1,42 @@
 var isRequire = require('is-require')('require')
 var evaluate  = require('static-eval')
-var astw      = require('astw')
 
 module.exports = sleuth
 
-function sleuth(walk) {
+function sleuth(ast) {
   var discovered = {}
+  var nodes = ast.body
+  var l = nodes.length
 
-  if (typeof walk !== 'function') {
-    walk = astw(walk)
-  }
+  for (var i = 0; i < l; i++) {
+    if (nodes[i].type !== 'VariableDeclaration') continue
 
-  walk(function(node) {
-    if (!isRequire(node)) return
-    if (node.parent.type !== 'VariableDeclarator') return
+    var declarations = nodes[i].declarations
+    var d = declarations.length
 
-    var path = node.arguments.length && (
-      node.arguments[0].type === 'Literal'
-        ? node.arguments[0].value
-        : evaluate(node.arguments[0])
-    )
+    for (var j = 0; j < d; j++) {
+      var node = declarations[j]
+      var init = node.init
 
-    var name = (
-      node.parent.id &&
-      node.parent.id.name
-    )
+      if (node.type !== 'VariableDeclarator') continue
+      if (!isRequire(init)) continue
 
-    if (path && name) {
-      discovered[name] = path
+      var path = init.arguments.length && (
+        init.arguments[0].type === 'Literal'
+          ? init.arguments[0].value
+          : evaluate(init.arguments[0])
+      )
+
+      var name = (
+        node.id &&
+        node.id.name
+      )
+
+      if (path && name) {
+        discovered[name] = path
+      }
     }
-  })
+  }
 
   return discovered
 }

@@ -1,19 +1,20 @@
 {
   "name": "sleuth",
-  "description": "Like detective, find all calls to require by walking the AST, however also supply the variable name used if available",
+  "description": "Discover the variable names chosen for each of a file's top-level required modules",
   "version": "0.0.0",
   "main": "index.js",
   "browser": "index.js",
   "dependencies": {
     "is-require": "0.0.0",
-    "static-eval": "~0.1.0",
-    "astw": "~0.1.0"
+    "static-eval": "~0.1.0"
   },
   "devDependencies": {
     "esprima": "~1.0.4",
     "tape": "~2.4.2"
   },
-  "scripts": {},
+  "scripts": {
+    "test": "node test"
+  },
   "author": "Hugh Kennedy <hughskennedy@gmail.com> (http://hughsk.io/)",
   "license": "MIT",
   "repository": {

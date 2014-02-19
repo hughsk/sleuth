@@ -1,20 +1,19 @@
 # sleuth [![Flattr this!](https://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=hughskennedy&url=http://github.com/hughsk/sleuth&title=sleuth&description=hughsk/sleuth%20on%20GitHub&language=en_GB&tags=flattr,github,javascript&category=software)[![experimental](http://hughsk.github.io/stability-badges/dist/experimental.svg)](http://github.com/hughsk/stability-badges) #
 
-Like detective, find all calls to require by walking the AST, however also supply the variable name used if available
+Discover the variable names chosen for each of a file's top-level required
+modules.
+
+Won't pick up nested requires in if/for statements or inside functions, but is
+intended for detecting the names of variables to replace e.g. when creating
+inlining transforms such as [brfs](http://github.com/substack/brfs).
 
 ## Usage ##
 
 [![sleuth](https://nodei.co/npm/sleuth.png?mini=true)](https://nodei.co/npm/sleuth)
 
-### `requires = sleuth(walk|ast|src)` ###
+### `requires = sleuth(ast)` ###
 
-Takes either:
-
-* Plain JavaScript: `src`.
-* An [esprima](http://github.com/ariya/esprima)-like `ast` object.
-* A `walk` function, which is expected to take a function and call it on
-  each node in the tree. Mostly for ease of use with modules like
-  [astw](http://github.com/substack/astw).
+Accepts an [esprima](http://github.com/ariya/esprima)-like `ast` object.
 
 Returns an object whose keys represent the variable names used to require a
 module, and whose values are the required module strings detected.
