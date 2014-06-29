@@ -1,7 +1,7 @@
 {
   "name": "sleuth",
   "description": "Discover the variable names chosen for each of a file's top-level required modules",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "index.js",
   "browser": "index.js",
   "dependencies": {
