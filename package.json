@@ -5,7 +5,7 @@
   "main": "index.js",
   "browser": "index.js",
   "dependencies": {
-    "is-require": "0.0.0",
+    "is-require": "0.0.1",
     "static-eval": "~0.1.0"
   },
   "devDependencies": {
