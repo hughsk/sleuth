@@ -20,6 +20,7 @@ test('sleuth', function(t) {
     , letter: 'let'
     , constant: 'const'
     , splits: 'another thing'
+    , coffee: 'coffee'
   })
 })
 

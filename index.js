@@ -9,34 +9,53 @@ function sleuth(ast) {
   var l = nodes.length
 
   for (var i = 0; i < l; i++) {
-    if (nodes[i].type !== 'VariableDeclaration') continue
 
-    var declarations = nodes[i].declarations
-    var d = declarations.length
+    if (nodes[i].type === 'VariableDeclaration') {
 
-    for (var j = 0; j < d; j++) {
-      var node = declarations[j]
-      var init = node.init
+      var declarations = nodes[i].declarations
+      var d = declarations.length
 
-      if (node.type !== 'VariableDeclarator') continue
-      if (!isRequire(init)) continue
+      for (var j = 0; j < d; j++) {
+        var node = declarations[j]
 
-      var path = init.arguments.length && (
-        init.arguments[0].type === 'Literal'
-          ? init.arguments[0].value
-          : evaluate(init.arguments[0])
-      )
+        if (node.type !== 'VariableDeclarator') continue
 
-      var name = (
-        node.id &&
-        node.id.name
-      )
+        var path = getPath(node.init)
+
+        var name = (
+          node.id &&
+          node.id.name
+        )
+
+        if (path && name) {
+          discovered[name] = path
+        }
+      }
+
+    } else if (nodes[i].type === 'ExpressionStatement') {
+
+      if (nodes[i].expression.type !== 'AssignmentExpression') continue
+
+      var path = getPath(nodes[i].expression.right)
+      var name = nodes[i].expression.left.name
 
       if (path && name) {
         discovered[name] = path
       }
     }
+
   }
 
   return discovered
+}
+
+function getPath(init) {
+  return (
+    isRequire(init) &&
+    init.arguments.length && (
+      init.arguments[0].type === 'Literal'
+        ? init.arguments[0].value
+        : evaluate(init.arguments[0])
+    )
+  )
 }
