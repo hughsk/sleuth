@@ -10,3 +10,6 @@ let letter = require('let')
 
 require('nothing')
 require()
+
+var coffee
+coffee = require('coffee')
