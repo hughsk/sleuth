@@ -6,7 +6,7 @@
   "browser": "index.js",
   "dependencies": {
     "is-require": "0.0.1",
-    "static-eval": "~0.1.0"
+    "static-eval": "~2.1.0"
   },
   "devDependencies": {
     "esprima": "~1.0.4",
